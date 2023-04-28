@@ -8,48 +8,58 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
+import { fetchPosts } from '../redux/slices/asyncActions';
+import { useAppDispatch } from '../redux/store';
+import { useSelector } from 'react-redux';
+import { selectPostsData } from '../redux/slices/posts';
+import { PostSkeleton } from '../components/Post/Skeleton';
 
 export const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { items, status } = useSelector(selectPostsData);
+  React.useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+  const skeletons = [...new Array(5)].map((_, index) => <PostSkeleton key={index} />);
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-        <Tab label="Новые" />
-        <Tab label="Популярные" />
+        <Tab label="New" />
+        <Tab label="Popular" />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {[...Array(5)].map(() => (
-            <Post
-              _id={1}
-              title="Roast the code #1 | Rock Paper Scissors"
-              imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-              user={{
-                avatarUrl:
-                  'https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png',
-                fullName: 'Keff',
-              }}
-              createdAt={new Date('June 12, 2022')}
-              viewsCount={150}
-              commentsCount={3}
-              tags={['react', 'fun', 'typescript']}
-              isEditable
-            />
-          ))}
+          {status === 'loading'
+            ? skeletons
+            : items.map((obj, index) => (
+                <Post
+                  key={index}
+                  _id={obj.user._id}
+                  title={obj.title}
+                  imageUrl={obj.imageUrl}
+                  user={obj.user}
+                  createdAt={new Date('June 12, 2022')}
+                  viewsCount={obj.viewsCount}
+                  commentsCount={3}
+                  tags={obj.tags}
+                  isEditable
+                />
+              ))}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} />
+          <TagsBlock items={['react', 'typescript', 'notes']} isLoading={false} />
           <CommentsBlock
             items={[
               {
                 user: {
-                  fullName: 'Вася Пупкин',
+                  fullName: 'Van Vong',
                   avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
                 },
-                text: 'Это тестовый комментарий',
+                text: 'This is a test commentary',
               },
               {
                 user: {
-                  fullName: 'Иван Иванов',
+                  fullName: 'Ivan Ivanov',
                   avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
                 },
                 text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',

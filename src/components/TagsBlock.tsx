@@ -19,7 +19,7 @@ interface TagsBlockProps {
 
 export const TagsBlock: React.FC<TagsBlockProps> = ({ items, isLoading = true }) => {
   return (
-    <SideBlock title="Тэги">
+    <SideBlock title="Tags">
       <List>
         {(isLoading ? [...Array(5)] : items).map((name, i) => (
           <a style={{ textDecoration: 'none', color: 'black' }} href={`/tags/${name}`}>

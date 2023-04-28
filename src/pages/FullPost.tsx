@@ -10,7 +10,7 @@ export const FullPost: React.FC = () => {
   return (
     <>
       <Post
-        _id={1}
+        _id={'1'}
         title="Roast the code #1 | Rock Paper Scissors"
         imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
         user={{
@@ -34,14 +34,14 @@ export const FullPost: React.FC = () => {
         items={[
           {
             user: {
-              fullName: 'Вася Пупкин',
+              fullName: 'Van Vong',
               avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
             },
-            text: 'Это тестовый комментарий 555555',
+            text: 'This is a test commentary',
           },
           {
             user: {
-              fullName: 'Иван Иванов',
+              fullName: 'Ivan Ivanov',
               avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
             },
             text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
