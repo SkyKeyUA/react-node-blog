@@ -1,7 +1,7 @@
 /** @format */
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchPosts } from './asyncActions';
+import { fetchPosts } from './asyncActionsPosts';
 import { RootState } from '../store';
 
 enum Status {
@@ -12,56 +12,58 @@ enum Status {
 
 type Posts = {
   title: string;
+  _id: string;
   text: string;
   tags: string[];
   viewsCount: number;
+  createdAt: string;
   user: {
-    _id: string;
     fullName: string;
     email: string;
     avatarUrl: string;
+    createdAt: string;
   };
   imageUrl: string;
 };
 
 export interface PostsSliceState {
-  items: Posts[];
-  status: Status;
+  posts: Posts[];
+  statusPosts: Status;
 }
 
 const initialState: PostsSliceState = {
-  items: [],
-  status: Status.LOADING,
+  posts: [],
+  statusPosts: Status.LOADING,
 };
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    setItems(state, action: PayloadAction<Posts[]>) {
-      state.items = action.payload;
+    setPosts(state, action: PayloadAction<Posts[]>) {
+      state.posts = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.pending, (state) => {
-      state.items = [];
-      state.status = Status.LOADING;
+      state.posts = [];
+      state.statusPosts = Status.LOADING;
       console.log('The data is sending');
     });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      state.items = action.payload;
-      state.status = Status.SUCCESS;
+      state.posts = action.payload;
+      state.statusPosts = Status.SUCCESS;
       console.log(state, 'All Good');
     });
     builder.addCase(fetchPosts.rejected, (state) => {
-      state.items = [];
-      state.status = Status.ERROR;
+      state.posts = [];
+      state.statusPosts = Status.ERROR;
       console.log('Was Error');
     });
   },
 });
 
-export const { setItems } = postsSlice.actions;
+export const { setPosts } = postsSlice.actions;
 
 export const selectPostsData = (state: RootState) => state.posts;
 

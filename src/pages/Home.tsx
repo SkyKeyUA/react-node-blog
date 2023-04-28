@@ -8,17 +8,22 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPosts } from '../redux/slices/asyncActions';
+import { fetchPosts } from '../redux/posts/asyncActionsPosts';
 import { useAppDispatch } from '../redux/store';
 import { useSelector } from 'react-redux';
-import { selectPostsData } from '../redux/slices/posts';
+import { selectPostsData } from '../redux/posts/slice';
 import { PostSkeleton } from '../components/Post/Skeleton';
+import { fetchTags } from '../redux/tags/asyncActionsTags';
+import { selectTagsData } from '../redux/tags/slice';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { items, status } = useSelector(selectPostsData);
+  const { posts, statusPosts } = useSelector(selectPostsData);
+  const { tags, statusTags } = useSelector(selectTagsData);
+
   React.useEffect(() => {
     dispatch(fetchPosts());
+    dispatch(fetchTags());
   }, []);
   const skeletons = [...new Array(5)].map((_, index) => <PostSkeleton key={index} />);
   return (
@@ -29,16 +34,16 @@ export const Home: React.FC = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {status === 'loading'
+          {statusPosts === 'loading'
             ? skeletons
-            : items.map((obj, index) => (
+            : posts.map((obj, index) => (
                 <Post
                   key={index}
-                  _id={obj.user._id}
+                  id={obj._id}
                   title={obj.title}
-                  imageUrl={obj.imageUrl}
+                  imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
                   user={obj.user}
-                  createdAt={new Date('June 12, 2022')}
+                  createdAt={new Date(obj.createdAt)}
                   viewsCount={obj.viewsCount}
                   commentsCount={3}
                   tags={obj.tags}
@@ -47,7 +52,7 @@ export const Home: React.FC = () => {
               ))}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={['react', 'typescript', 'notes']} isLoading={false} />
+          <TagsBlock items={tags} isLoading={statusTags} />
           <CommentsBlock
             items={[
               {

@@ -14,7 +14,7 @@ import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
 
 interface PostProps {
-  _id: string;
+  id: string;
   title: string;
   createdAt: Date;
   imageUrl: string;
@@ -32,7 +32,7 @@ interface PostProps {
 }
 
 export const Post: React.FC<PostProps> = ({
-  _id,
+  id,
   title,
   createdAt,
   imageUrl,
@@ -55,7 +55,7 @@ export const Post: React.FC<PostProps> = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${_id}/edit`}>
+          <Link to={`/posts/${id}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -76,7 +76,7 @@ export const Post: React.FC<PostProps> = ({
         <UserInfo {...user} additionalText={createdAt.toISOString()} />
         <div className={styles.indention}>
           <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <Link to={`/posts/${_id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
