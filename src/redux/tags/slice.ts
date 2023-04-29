@@ -1,19 +1,8 @@
 /** @format */
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchTags } from './asyncActionsTags';
-import { RootState } from '../store';
-
-enum Status {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
-
-export interface tagsSliceState {
-  tags: string[];
-  statusTags: Status;
-}
+import { fetchTags } from './asyncActions';
+import { Status, tagsSliceState } from './type';
 
 const initialState: tagsSliceState = {
   tags: [],
@@ -49,6 +38,4 @@ const tagsSlice = createSlice({
 
 export const { setTags } = tagsSlice.actions;
 
-export const selectTagsData = (state: RootState) => state.tags;
-
-export const tagsReducer = tagsSlice.reducer;
+export default tagsSlice.reducer;

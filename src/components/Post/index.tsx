@@ -11,7 +11,6 @@ import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
-import { PostSkeleton } from './Skeleton';
 
 interface PostProps {
   id: string;
@@ -27,7 +26,6 @@ interface PostProps {
   tags: string[];
   children?: React.ReactNode;
   isFullPost?: boolean;
-  isLoading?: boolean;
   isEditable?: boolean;
 }
 
@@ -42,13 +40,8 @@ export const Post: React.FC<PostProps> = ({
   tags,
   children,
   isFullPost,
-  isLoading,
   isEditable,
 }) => {
-  if (isLoading) {
-    return <PostSkeleton />;
-  }
-
   const onClickRemove = () => {};
 
   return (

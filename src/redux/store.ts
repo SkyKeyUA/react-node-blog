@@ -1,14 +1,16 @@
 /** @format */
 
 import { configureStore } from '@reduxjs/toolkit';
-import { postsReducer } from './posts/slice';
 import { useDispatch } from 'react-redux';
-import { tagsReducer } from './tags/slice';
+import postsSlice from './posts/slice';
+import tagsSlice from './tags/slice';
+import authSlice from './auth/slice';
 
 export const store = configureStore({
   reducer: {
-    posts: postsReducer,
-    tags: tagsReducer,
+    posts: postsSlice,
+    tags: tagsSlice,
+    auth: authSlice,
   },
 });
 

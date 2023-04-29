@@ -7,6 +7,7 @@ import { Index } from '../components/AddComment';
 import { CommentsBlock } from '../components/CommentsBlock';
 import { useParams } from 'react-router-dom';
 import axios from '../axios';
+import { PostSkeleton } from '../components/Post/Skeleton';
 
 type PostProps = {
   title: string;
@@ -25,30 +26,29 @@ type PostProps = {
 };
 
 export const FullPost: React.FC = () => {
-  const [data, setData] = React.useState<PostProps | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [data, setData] = React.useState<PostProps>();
   const { id } = useParams();
   React.useEffect(() => {
     axios
       .get(`/posts/${id}`)
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+      })
       .catch((error) => {
         console.warn(error);
         alert('Failed to get an article');
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
   }, [id]);
-  if (data === null) {
-    return <div>Loading...</div>;
+  if (!data) {
+    return <PostSkeleton />;
   }
   return (
     <>
       <Post
         id={data._id}
         title={data.title}
-        imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+        //imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+        imageUrl={data.imageUrl}
         user={data.user}
         createdAt={new Date(data.createdAt)}
         viewsCount={data.viewsCount}

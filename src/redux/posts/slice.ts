@@ -1,35 +1,8 @@
 /** @format */
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchPosts } from './asyncActionsPosts';
-import { RootState } from '../store';
-
-enum Status {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
-
-type Posts = {
-  title: string;
-  _id: string;
-  text: string;
-  tags: string[];
-  viewsCount: number;
-  createdAt: string;
-  user: {
-    fullName: string;
-    email: string;
-    avatarUrl: string;
-    createdAt: string;
-  };
-  imageUrl: string;
-};
-
-export interface PostsSliceState {
-  posts: Posts[];
-  statusPosts: Status;
-}
+import { fetchPosts } from './asyncActions';
+import { Posts, PostsSliceState, Status } from './type';
 
 const initialState: PostsSliceState = {
   posts: [],
@@ -65,6 +38,4 @@ const postsSlice = createSlice({
 
 export const { setPosts } = postsSlice.actions;
 
-export const selectPostsData = (state: RootState) => state.posts;
-
-export const postsReducer = postsSlice.reducer;
+export default postsSlice.reducer;
