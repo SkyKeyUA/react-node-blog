@@ -1,6 +1,6 @@
 /** @format */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchUserData } from './asyncActions';
+import { fetchAuth } from './asyncActions';
 import { Status } from './type';
 
 const initialState = {
@@ -13,17 +13,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchUserData.pending, (state) => {
+    builder.addCase(fetchAuth.pending, (state) => {
       state.data = null;
       state.status = Status.LOADING;
       console.log('The data is sending');
     });
-    builder.addCase(fetchUserData.fulfilled, (state, action) => {
+    builder.addCase(fetchAuth.fulfilled, (state, action) => {
       state.data = action.payload;
       state.status = Status.SUCCESS;
       console.log(state, 'All Good');
     });
-    builder.addCase(fetchUserData.rejected, (state) => {
+    builder.addCase(fetchAuth.rejected, (state) => {
       state.data = null;
       state.status = Status.ERROR;
       console.log('Was Error');

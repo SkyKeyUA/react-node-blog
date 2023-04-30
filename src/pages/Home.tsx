@@ -15,7 +15,7 @@ import { fetchTags } from '../redux/tags/asyncActions';
 import { fetchPosts } from '../redux/posts/asyncActions';
 import { selectPostsData } from '../redux/posts/selectors';
 import { selectTagsData } from '../redux/tags/selectors';
-import { fetchUserData } from '../redux/auth/asyncActions';
+import { fetchAuth } from '../redux/auth/asyncActions';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,6 @@ export const Home: React.FC = () => {
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
-    dispatch(fetchUserData());
   }, []);
   const skeletons = [...new Array(5)].map((_, index) => <PostSkeleton key={index} />);
   return (
