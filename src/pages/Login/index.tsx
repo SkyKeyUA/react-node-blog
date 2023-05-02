@@ -30,8 +30,14 @@ export const Login: React.FC = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (user: { email: string; password: string }) => {
-    dispatch(fetchAuth(user));
+  const onSubmit = async (user: { email: string; password: string }) => {
+    const data = await dispatch(fetchAuth(user));
+    if (!data.payload) {
+      return alert('Failed to log in');
+    }
+    if ('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token);
+    }
   };
   if (isAuth) {
     return <Navigate to="/" />;
