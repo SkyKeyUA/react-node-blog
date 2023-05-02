@@ -8,11 +8,17 @@ import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../redux/auth/selectors';
+import { useAppDispatch } from '../../redux/store';
+import { logout } from '../../redux/auth/slice';
 
 export const Header: React.FC = () => {
+  const dispatch = useAppDispatch();
   const isAuth = useSelector(selectIsAuth);
-
-  const onClickLogout = () => {};
+  const onClickLogout = () => {
+    if (window.confirm('Are you sure you want to log out?')) {
+      dispatch(logout());
+    }
+  };
 
   return (
     <div className={styles.root}>
