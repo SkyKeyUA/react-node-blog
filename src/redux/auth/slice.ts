@@ -1,6 +1,6 @@
 /** @format */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchAuth, fetchAuthMe } from './asyncActions';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchAuth, fetchAuthMe, fetchRegister } from './asyncActions';
 import { Status } from './type';
 
 const initialState = {
@@ -43,6 +43,21 @@ const authSlice = createSlice({
       console.log(state, 'All Good');
     });
     builder.addCase(fetchAuthMe.rejected, (state) => {
+      state.data = null;
+      state.status = Status.ERROR;
+      console.log('Was Error');
+    });
+    builder.addCase(fetchRegister.pending, (state) => {
+      state.data = null;
+      state.status = Status.LOADING;
+      console.log('The data is sending');
+    });
+    builder.addCase(fetchRegister.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.status = Status.SUCCESS;
+      console.log(state, 'All Good');
+    });
+    builder.addCase(fetchRegister.rejected, (state) => {
       state.data = null;
       state.status = Status.ERROR;
       console.log('Was Error');

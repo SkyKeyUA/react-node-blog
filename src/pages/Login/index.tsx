@@ -24,8 +24,8 @@ export const Login: React.FC = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: 'test@test.com',
-      password: '12345',
+      email: '',
+      password: '',
     },
     mode: 'onChange',
   });
@@ -65,7 +65,7 @@ export const Login: React.FC = () => {
           {...register('password', { required: 'specify your password' })}
           fullWidth
         />
-        <Button type="submit" size="large" variant="contained" fullWidth>
+        <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
           Log in
         </Button>
       </form>
