@@ -15,13 +15,16 @@ import { fetchTags } from '../redux/tags/asyncActions';
 import { fetchPosts } from '../redux/posts/asyncActions';
 import { selectPostsData } from '../redux/posts/selectors';
 import { selectTagsData } from '../redux/tags/selectors';
-import { fetchAuth } from '../redux/auth/asyncActions';
+import { selectAuthData } from '../redux/auth/selectors';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { data } = useSelector(selectAuthData);
   const { posts, statusPosts } = useSelector(selectPostsData);
   const { tags, statusTags } = useSelector(selectTagsData);
-
+  if (data !== null) {
+    console.log(data._id);
+  }
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());

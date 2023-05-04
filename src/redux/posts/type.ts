@@ -18,6 +18,7 @@ export type Posts = {
     email: string;
     avatarUrl: string;
     createdAt: string;
+    _id: string;
   };
   imageUrl: string;
 };
