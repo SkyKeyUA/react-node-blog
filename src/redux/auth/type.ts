@@ -15,6 +15,6 @@ export type Auth = {
 };
 
 export interface AuthSliceState {
-  data: null | Auth[];
+  data: Auth | null;
   statusAuth: Status;
 }

@@ -4,7 +4,7 @@ import { fetchAuth, fetchAuthMe, fetchRegister } from './asyncActions';
 import { AuthSliceState, Status } from './type';
 
 const initialState: AuthSliceState = {
-  data: [],
+  data: null,
   statusAuth: Status.LOADING,
 };
 

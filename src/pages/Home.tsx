@@ -22,9 +22,6 @@ export const Home: React.FC = () => {
   const { data } = useSelector(selectAuthData);
   const { posts, statusPosts } = useSelector(selectPostsData);
   const { tags, statusTags } = useSelector(selectTagsData);
-  if (data !== null) {
-    console.log(data._id);
-  }
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
@@ -52,7 +49,7 @@ export const Home: React.FC = () => {
                   viewsCount={obj.viewsCount}
                   commentsCount={3}
                   tags={obj.tags}
-                  isEditable
+                  isEditable={data?._id === obj.user._id}
                 />
               ))}
         </Grid>
