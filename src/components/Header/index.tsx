@@ -31,7 +31,7 @@ export const Header: React.FC = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-                <Link to="/posts/create">
+                <Link to="/add-post">
                   <Button variant="contained">Write an article</Button>
                 </Link>
                 <Button onClick={onClickLogout} variant="contained" color="error">
