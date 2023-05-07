@@ -7,11 +7,13 @@ export enum Status {
 }
 
 export type Auth = {
-  avatarUrl: string;
-  createdAt: string;
-  email: string;
-  fullName: string;
-  _id: string;
+  userData: {
+    avatarUrl: string;
+    createdAt: string;
+    email: string;
+    fullName: string;
+    _id: string;
+  };
 };
 
 export interface AuthSliceState {

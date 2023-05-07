@@ -22,6 +22,7 @@ export const Home: React.FC = () => {
   const { data } = useSelector(selectAuthData);
   const { posts, statusPosts } = useSelector(selectPostsData);
   const { tags, statusTags } = useSelector(selectTagsData);
+  console.log(data);
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
@@ -42,14 +43,14 @@ export const Home: React.FC = () => {
                   key={index}
                   id={obj._id}
                   title={obj.title}
-                  imageUrl={obj.imageUrl}
+                  imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
                   //imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
                   user={obj.user}
                   createdAt={new Date(obj.createdAt)}
                   viewsCount={obj.viewsCount}
                   commentsCount={3}
                   tags={obj.tags}
-                  isEditable={data?._id === obj.user._id}
+                  isEditable={data?.userData?._id === obj.user._id}
                 />
               ))}
         </Grid>

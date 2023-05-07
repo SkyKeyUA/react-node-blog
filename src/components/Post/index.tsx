@@ -11,6 +11,8 @@ import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
+import { useAppDispatch } from '../../redux/store';
+import { fetchRemovePost } from '../../redux/posts/asyncActions';
 
 interface PostProps {
   id: string;
@@ -42,7 +44,12 @@ export const Post: React.FC<PostProps> = ({
   isFullPost,
   isEditable,
 }) => {
-  const onClickRemove = () => {};
+  const dispatch = useAppDispatch();
+  const onClickRemove = () => {
+    if (window.confirm('Are you sure you want to delete the article?')) {
+      dispatch(fetchRemovePost(id));
+    }
+  };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

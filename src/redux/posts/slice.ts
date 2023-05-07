@@ -1,7 +1,7 @@
 /** @format */
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchPosts } from './asyncActions';
+import { fetchPosts, fetchRemovePost } from './asyncActions';
 import { Posts, PostsSliceState, Status } from './type';
 
 const initialState: PostsSliceState = {
@@ -32,6 +32,9 @@ const postsSlice = createSlice({
       state.posts = [];
       state.statusPosts = Status.ERROR;
       console.log('Was Error');
+    });
+    builder.addCase(fetchRemovePost.pending, (state, action) => {
+      state.posts = state.posts.filter((obj) => obj._id !== action.meta.arg);
     });
   },
 });
