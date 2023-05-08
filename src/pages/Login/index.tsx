@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 
 import styles from './Login.module.scss';
 import { useAppDispatch } from '../../redux/store';
-import { fetchAuth } from '../../redux/auth/asyncActions';
+import { fetchAuth, fetchAuthMe } from '../../redux/auth/asyncActions';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../redux/auth/selectors';
 import { Navigate } from 'react-router-dom';
@@ -40,6 +40,7 @@ export const Login: React.FC = () => {
     }
   };
   if (isAuth) {
+    dispatch(fetchAuthMe());
     return <Navigate to="/" />;
   }
   return (

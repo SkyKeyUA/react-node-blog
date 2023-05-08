@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
   const { data } = useSelector(selectAuthData);
   const { posts, statusPosts } = useSelector(selectPostsData);
   const { tags, statusTags } = useSelector(selectTagsData);
-  console.log(data);
+  console.log(data?.userData?._id);
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
@@ -38,13 +38,12 @@ export const Home: React.FC = () => {
         <Grid xs={8} item>
           {statusPosts === 'loading'
             ? skeletons
-            : posts.map((obj, index) => (
+            : posts.map((obj: any, index) => (
                 <Post
                   key={index}
                   id={obj._id}
                   title={obj.title}
                   imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
-                  //imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
                   user={obj.user}
                   createdAt={new Date(obj.createdAt)}
                   viewsCount={obj.viewsCount}

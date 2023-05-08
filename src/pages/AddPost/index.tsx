@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../redux/auth/selectors';
 import axios from '../../axios';
@@ -15,6 +15,7 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 
 export const AddPost: React.FC = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -23,6 +24,8 @@ export const AddPost: React.FC = () => {
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
   const inputFileRef = React.useRef<HTMLInputElement>(null);
+
+  const isEditing = Boolean(id);
 
   const handleChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -57,14 +60,33 @@ export const AddPost: React.FC = () => {
         tags,
         text,
       };
-      const { data } = await axios.post('/posts', fields);
-      const id = data._id;
-      navigate(`/posts/${id}`);
+      const { data } = isEditing
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post('/posts', fields);
+      const _id = isEditing ? id : data._id;
+      navigate(`/posts/${_id}`);
     } catch (error) {
       console.warn(error);
       alert('Failed to create an article');
     }
   };
+
+  React.useEffect(() => {
+    if (id) {
+      axios
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          setImageUrl(data.imageUrl);
+          setTitle(data.title);
+          setTags(data.tags.join(','));
+          setText(data.text);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to get an article');
+        });
+    }
+  }, []);
 
   const options = React.useMemo(
     () => ({
@@ -120,7 +142,7 @@ export const AddPost: React.FC = () => {
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSumbit} size="large" variant="contained">
-          Publish
+          {isEditing ? 'Save changes' : 'Publish'}
         </Button>
         <a href="/">
           <Button size="large">Cancel</Button>
